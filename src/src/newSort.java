@@ -1,15 +1,13 @@
 public class newSort {
+     newSort(int[] a, int size){
 
-    public static void main(String[] args){
-//        int [] a = {1, 2, 3, 4, 5, 6};
-//        int size = 3;
-//        new newSorting(a, size);
-    }
-    public void newSorting(int[] a, int size){
         if(a.length <= size){
-            quickSort(a);
+            int start = 0;
+            int end = a.length - 1;
+            quickSort(a, start, end);
         }
         else{
+
             int mid = a.length / 2;
             int[] LH = new int[mid];
             int [] RH = new int[a.length - mid];
@@ -17,37 +15,53 @@ public class newSort {
             for(int i = 0; i < LH.length; i++){
                 LH[i] = a[i];
             }
-            for(int i = 0; i < LH.length; i++){
-                System.out.print(LH[i]);
-            }
-            System.out.println();
-
             for(int j = 0; j < RH.length; j++){
                 RH[j] = a[mid + j];
             }
-            for(int j = 0; j < RH.length; j++){
-                System.out.print(RH[j]);
-            }
-            System.out.println();
 
-            newSorting(LH, size);
-            newSorting(RH, size);
+             new newSort(LH, size);
+             new newSort(RH, size);
+            mergeSortedHalves(a, LH, RH);
         }
     }
-    public void quickSort(int [] a, int low, int high){
-        if(low < high){
-            int partitionIN = partition(a, low, high);
+    public void quickSort(int [] a, int start, int end){
 
-            quickSort(a, low, partitionIN - 1);
+        if(start < end && start >= 0){
+            int partitionIn = partition(a, start, end);
 
-            quickSort(a, low + 1, high);
+            quickSort(a, start, partitionIn - 1);
+
+            quickSort(a, partitionIn + 1, end);
         }
+    }
+    public int partition(int[] a, int start, int end){
+
+        int pivot = a[start];
+
+        for(int i = start; i < end + 1; i++){
+            if(a[i] < pivot){
+                int temp = a[i];
+                a[i] = pivot;
+                a[start] = temp;
+                start++;
+            }
+            else if(a[i] > pivot){
+                int temp = pivot;
+                 pivot = a[i];
+                a[start] = temp;
+                start++;
+            }
+        }
+        return end;
     }
     public void mergeSortedHalves(int [] a, int [] LH, int [] RH){
+
         int leftPointer = 0;
+
         int rightPointer = 0;
+
         //loop for storing elements in original array
-        for(int i = 0; i < a.length ||leftPointer < LH.length || rightPointer < RH.length; i++){
+        for(int i = 0; leftPointer < LH.length || rightPointer < RH.length; i++){
             //Once one of the pointers has nothing to point to then sort the rest of the other element
             if(leftPointer == LH.length){
                 a[i] = RH[rightPointer];
@@ -70,6 +84,7 @@ public class newSort {
             else if(LH[leftPointer] == RH[rightPointer]){
                 //Putting left first
                 a[i] = LH[leftPointer];
+                leftPointer++;
             }
             else{
                 //Otherwise sort right element
