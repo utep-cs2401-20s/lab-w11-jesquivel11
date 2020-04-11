@@ -6,7 +6,7 @@ public class newSortTest {
 
     @Test
     public void test1(){
-        //Testing a reverse array with size 2. A simple test case
+        //Testing a reverse array with size 2. A simple test case to check quicksort and mergeSortedHalves
         int [] a = {3, 2, 1};
         int size = 3;
 
